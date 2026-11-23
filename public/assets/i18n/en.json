@@ -1,0 +1,144 @@
+{
+  "general": {
+    "actions": "Actions",
+    "active_filter": "Active filter",
+    "add": "Add",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "filter_title": "Filter",
+    "loading": "Loading...",
+    "more_count": "More ({{count}})",
+    "no_results": "No results",
+    "reset": "Reset",
+    "search": "Search",
+    "select_all": "Select all",
+    "selected": "Selected",
+    "unselect_all": "Unselect all",
+    "update": "Update",
+    "layout": {
+      "profile": "My profile",
+      "logout": "Log out",
+      "main_navigation": "Main navigation",
+      "toggle_sidebar": "Toggle sidebar",
+      "search_navigation": "Search navigation",
+      "toggle_topbar_menu": "Toggle topbar menu",
+      "language_menu": "Change language",
+      "account_menu": "Account menu",
+      "breadcrumb": "Breadcrumb",
+      "back": "Back",
+      "forward": "Next",
+      "page_loading": "Loading page",
+      "dismiss_notification": "Dismiss notification"
+    },
+    "messages": {
+      "check_input": "Please check your input and try again.",
+      "confirm_delete": "Are you sure you want to delete this record?",
+      "error": "Error",
+      "network_error": "Network error",
+      "offline": "You are offline. Check your internet connection and try again.",
+      "server_error": "Server error",
+      "success": "Success",
+      "unexpected_error": "An unexpected error occurred."
+    },
+    "not_found_page": {
+      "title": "Page Not Found!",
+      "description": "Sorry, we can't find the page you're looking for. Please check the URL and try again.",
+      "actions": {
+        "go_home": "Go to home page"
+      }
+    },
+    "pagination": {
+      "previous": "Previous Page",
+      "next": "Next Page",
+      "info": "Showing {{start}} to {{end}} of {{total}} entries",
+      "show_all": "Show All"
+    },
+    "table": {
+      "current_page_report_template": "Showing {first} to {last} of {totalRecords} entries"
+    },
+    "validation": {
+      "invalid": "Invalid value",
+      "max": "Maximum value is {{max}}",
+      "max_length": "Must not exceed {{max}} characters",
+      "min": "Minimum value is {{min}}",
+      "min_length": "Must be at least {{min}} characters",
+      "pattern": "Invalid format",
+      "required": "This field is required"
+    }
+  },
+  "add_feature_column": {
+    "title": "Configure Columns",
+    "add_column": "Add Column",
+    "clear_filters": "Clear Filters",
+    "no_columns": "No columns found.",
+    "reset_to_default": "Reset To Default",
+    "search_column_ph": "Search column by name",
+    "select_all": "Select All"
+  },
+  "sidebar": {
+    "search_ph": "Quick Search ..."
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "main": "Main menu",
+    "notFound": "Page not found"
+  },
+  "auth": {
+    "brand": "NAS",
+    "login": {
+      "title": "Sign in",
+      "description": "Sign in to manage companies, modules, and licenses.",
+      "identifier": "Email or username",
+      "password": "Password",
+      "submit": "Sign in",
+      "signingIn": "Signing in…",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "switchLanguage": "العربية",
+      "unavailable": "Unable to sign in. Check your details or try again.",
+      "cover": "Manage companies, modules, and licenses in one place."
+    },
+    "profile": {
+      "title": "My profile",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "lastLogin": "Last sign-in",
+      "unavailable": "Not available"
+    },
+    "roles": {
+      "sup-admin": "Super Admin",
+      "admin": "Admin",
+      "viewer": "Viewer"
+    },
+    "password": {
+      "title": "Change password",
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "rules": "Use at least 8 characters, including an uppercase letter, a lowercase letter, and a number.",
+      "mismatch": "The passwords do not match.",
+      "save": "Save password",
+      "saving": "Saving…"
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome, {{name}}",
+    "description": "Overview of the companies and licenses you manage.",
+    "refresh": "Refresh",
+    "retry": "Try again",
+    "summary": "Company summary",
+    "loading": "Loading dashboard",
+    "loadFailed": "The company overview could not be loaded.",
+    "totalCompanies": "Total companies",
+    "activeCompanies": "Active companies",
+    "suspendedCompanies": "Suspended companies",
+    "expiredLicenses": "Expired licenses",
+    "recentCompanies": "Recently added companies",
+    "noCompanies": "No companies have been added yet.",
+    "licenseExpiry": "License expiry",
+    "active": "Active",
+    "suspended": "Suspended"
+  }
+}

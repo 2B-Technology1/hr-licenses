@@ -1,0 +1,121 @@
+:host {
+  display: block;
+}
+
+.login {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
+  max-inline-size: 1280px;
+  margin-inline: auto;
+  padding: var(--Spacing-24) clamp(var(--Spacing-16), 5vw, var(--Spacing-64));
+  gap: var(--Spacing-32);
+
+  &__header,
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--Spacing-12);
+  }
+
+  &__header {
+    justify-content: space-between;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--Spacing-48);
+    align-items: center;
+    flex: 1;
+  }
+
+  &__panel {
+    inline-size: min(100%, 420px);
+    margin-inline: auto;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--Colors-Essential-Text);
+    font-size: var(--Font-Size-2-XL);
+  }
+
+  &__intro {
+    margin: var(--Spacing-8) 0 var(--Spacing-24);
+    color: var(--Colors-Neutral-750);
+  }
+
+  form {
+    display: grid;
+    gap: var(--Spacing-16);
+  }
+
+  form > button {
+    inline-size: 100%;
+  }
+
+  &__password {
+    position: relative;
+
+    input {
+      padding-inline-end: var(--Spacing-48);
+    }
+
+    button {
+      position: absolute;
+      inset-block: var(--Spacing-4);
+      inset-inline-end: var(--Spacing-4);
+      inline-size: var(--Spacing-32);
+      border: 0;
+      border-radius: var(--Border-Radius-8);
+      background: transparent;
+      color: var(--Colors-Neutral-750);
+      cursor: pointer;
+    }
+  }
+
+  &__error {
+    margin: 0;
+    padding: var(--Spacing-12);
+    border-radius: var(--Border-Radius-8);
+    background: var(--Colors-Status-Red-50);
+    color: var(--Colors-Essential-Text);
+  }
+
+  &__cover {
+    display: flex;
+    min-block-size: 450px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: end;
+    gap: var(--Spacing-16);
+    border-radius: var(--Border-Radius-20);
+    padding: var(--Spacing-32);
+    background: linear-gradient(135deg, var(--Colors-Deep-Teal-800), var(--Colors-Deep-Teal-1000));
+    color: var(--Base-White);
+
+    i {
+      font-size: var(--Font-Size-2-XL);
+    }
+
+    p {
+      max-inline-size: 14em;
+      margin: 0;
+      font-size: var(--Font-Size-2-XL);
+      font-weight: var(--Font-Weight-700);
+      line-height: 1.25;
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .login__content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .login__cover {
+    display: none;
+  }
+}

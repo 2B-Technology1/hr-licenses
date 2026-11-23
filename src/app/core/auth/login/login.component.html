@@ -1,0 +1,109 @@
+<main class="login">
+  <div class="login__header">
+    <div class="login__brand">
+      <img src="images/logo-core.svg" alt="" width="36" height="36" />
+      <img
+        src="images/word-mark.svg"
+        [alt]="'auth.brand' | translate"
+        width="96"
+        height="37"
+      />
+    </div>
+    <button
+      type="button"
+      class="custom-btn btn-white"
+      (click)="switchLanguage()"
+    >
+      <i class="pi pi-globe" aria-hidden="true"></i>
+      <span [attr.lang]="language.lang() === 'ar' ? 'en' : 'ar'">
+        {{ 'auth.login.switchLanguage' | translate }}
+      </span>
+    </button>
+  </div>
+
+  <div class="login__content">
+    <section class="login__panel" aria-labelledby="login-title">
+      <h1 id="login-title">{{ 'auth.login.title' | translate }}</h1>
+      <p class="login__intro">{{ 'auth.login.description' | translate }}</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @let email = form.get('email');
+        @let password = form.get('password');
+        <div class="our-field bold-label">
+          <label for="login-email">
+            {{ 'auth.login.identifier' | translate }}
+            <app-required-field aria-hidden="true" />
+          </label>
+          <input
+            pInputText
+            id="login-email"
+            type="text"
+            autocomplete="username"
+            formControlName="email"
+            required
+            [attr.aria-invalid]="email?.touched && email?.invalid"
+            [attr.aria-describedby]="
+              email?.touched && email?.invalid ? 'login-email-error' : null
+            "
+          />
+          @if (email?.touched && email?.invalid) {
+            <app-form-error id="login-email-error" [control]="email" />
+          }
+        </div>
+
+        <div class="our-field bold-label">
+          <label for="login-password">
+            {{ 'auth.login.password' | translate }}
+            <app-required-field aria-hidden="true" />
+          </label>
+          <div class="login__password">
+            <input
+              pInputText
+              id="login-password"
+              [type]="showPassword() ? 'text' : 'password'"
+              autocomplete="current-password"
+              formControlName="password"
+              required
+              [attr.aria-invalid]="password?.touched && password?.invalid"
+              [attr.aria-describedby]="
+                password?.touched && password?.invalid
+                  ? 'login-password-error'
+                  : null
+              "
+            />
+            <button
+              type="button"
+              [attr.aria-label]="
+                (showPassword() ? 'auth.login.hidePassword' : 'auth.login.showPassword') | translate
+              "
+              (click)="showPassword.set(!showPassword())"
+            >
+              <i class="pi" [class.pi-eye]="!showPassword()" [class.pi-eye-slash]="showPassword()" aria-hidden="true"></i>
+            </button>
+          </div>
+          @if (password?.touched && password?.invalid) {
+            <app-form-error id="login-password-error" [control]="password" />
+          }
+        </div>
+
+        @if (loginError() || connectionFailed()) {
+          <p class="login__error" role="alert">
+            {{ loginError() || ('auth.login.unavailable' | translate) }}
+          </p>
+        }
+
+        <button type="submit" class="custom-btn btn-primary" [disabled]="submitting()">
+          @if (submitting()) {
+            <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+          }
+          {{ (submitting() ? 'auth.login.signingIn' : 'auth.login.submit') | translate }}
+        </button>
+      </form>
+    </section>
+
+    <aside class="login__cover">
+      <i class="pi pi-building" aria-hidden="true"></i>
+      <p>{{ 'auth.login.cover' | translate }}</p>
+    </aside>
+  </div>
+</main>

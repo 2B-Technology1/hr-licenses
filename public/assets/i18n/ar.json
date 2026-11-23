@@ -1,0 +1,144 @@
+{
+  "general": {
+    "actions": "الإجراءات",
+    "active_filter": "الفلتر النشط",
+    "add": "إضافة",
+    "apply": "تطبيق",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "filter_title": "تصفية",
+    "loading": "جارٍ التحميل...",
+    "more_count": "المزيد ({{count}})",
+    "no_results": "لا توجد نتائج",
+    "reset": "إعادة تعيين",
+    "search": "بحث",
+    "select_all": "تحديد الكل",
+    "selected": "تم اختياره",
+    "unselect_all": "إلغاء تحديد الكل",
+    "update": "تعديل",
+    "layout": {
+      "profile": "ملفي الشخصي",
+      "logout": "تسجيل الخروج",
+      "main_navigation": "التنقل الرئيسي",
+      "toggle_sidebar": "إظهار أو إخفاء القائمة الجانبية",
+      "search_navigation": "البحث في القائمة",
+      "toggle_topbar_menu": "إظهار أو إخفاء قائمة الشريط العلوي",
+      "language_menu": "تغيير اللغة",
+      "account_menu": "قائمة الحساب",
+      "breadcrumb": "مسار التنقل",
+      "back": "رجوع",
+      "forward": "التالي",
+      "page_loading": "جارٍ تحميل الصفحة",
+      "dismiss_notification": "إغلاق الإشعار"
+    },
+    "messages": {
+      "check_input": "يرجى مراجعة البيانات والمحاولة مرة أخرى.",
+      "confirm_delete": "هل أنت متأكد من حذف هذا السجل؟",
+      "error": "خطأ",
+      "network_error": "خطأ في الشبكة",
+      "offline": "أنت غير متصل بالإنترنت. تحقق من الاتصال وحاول مرة أخرى.",
+      "server_error": "خطأ في الخادم",
+      "success": "تم بنجاح",
+      "unexpected_error": "حدث خطأ غير متوقع."
+    },
+    "not_found_page": {
+      "title": "الصفحة غير موجودة!",
+      "description": "عذرًا، لا يمكننا العثور على الصفحة التي تبحث عنها. يرجى التحقق من الرابط والمحاولة مرة أخرى.",
+      "actions": {
+        "go_home": "الذهاب إلى الصفحة الرئيسية"
+      }
+    },
+    "pagination": {
+      "previous": "الصفحة السابقة",
+      "next": "الصفحة التالية",
+      "info": "عرض {{start}} إلى {{end}} من إجمالي {{total}}",
+      "show_all": "عرض الكل"
+    },
+    "table": {
+      "current_page_report_template": "عرض {first} إلى {last} من {totalRecords} سجل"
+    },
+    "validation": {
+      "invalid": "قيمة غير صحيحة",
+      "max": "الحد الأقصى هو {{max}}",
+      "max_length": "يجب ألا يتجاوز {{max}} حرف",
+      "min": "الحد الأدنى هو {{min}}",
+      "min_length": "يجب ألا يقل عن {{min}} حرف",
+      "pattern": "صيغة غير صحيحة",
+      "required": "هذا الحقل مطلوب"
+    }
+  },
+  "add_feature_column": {
+    "title": "إعداد الأعمدة",
+    "add_column": "إضافة عمود",
+    "clear_filters": "مسح عوامل التصفية",
+    "no_columns": "لا توجد أعمدة.",
+    "reset_to_default": "إعادة الضبط للافتراضي",
+    "search_column_ph": "البحث عن عمود بالاسم",
+    "select_all": "تحديد الكل"
+  },
+  "sidebar": {
+    "search_ph": "ابحث عن أي شيء..."
+  },
+  "navigation": {
+    "dashboard": "لوحة التحكم",
+    "main": "القائمة الرئيسية",
+    "notFound": "الصفحة غير موجودة"
+  },
+  "auth": {
+    "brand": "NAS",
+    "login": {
+      "title": "تسجيل الدخول",
+      "description": "سجّل الدخول لإدارة الشركات والوحدات والتراخيص.",
+      "identifier": "البريد الإلكتروني أو اسم المستخدم",
+      "password": "كلمة المرور",
+      "submit": "تسجيل الدخول",
+      "signingIn": "جارٍ تسجيل الدخول…",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "switchLanguage": "English",
+      "unavailable": "تعذر تسجيل الدخول. تحقق من بياناتك أو حاول مرة أخرى.",
+      "cover": "أدر الشركات والوحدات والتراخيص من مكان واحد."
+    },
+    "profile": {
+      "title": "ملفي الشخصي",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "role": "الدور",
+      "lastLogin": "آخر تسجيل دخول",
+      "unavailable": "غير متاح"
+    },
+    "roles": {
+      "sup-admin": "مدير النظام",
+      "admin": "مسؤول",
+      "viewer": "مشاهد"
+    },
+    "password": {
+      "title": "تغيير كلمة المرور",
+      "current": "كلمة المرور الحالية",
+      "new": "كلمة المرور الجديدة",
+      "confirm": "تأكيد كلمة المرور الجديدة",
+      "rules": "استخدم ٨ أحرف على الأقل، تتضمن حرفًا إنجليزيًا كبيرًا وحرفًا صغيرًا ورقمًا.",
+      "mismatch": "كلمتا المرور غير متطابقتين.",
+      "save": "حفظ كلمة المرور",
+      "saving": "جارٍ الحفظ…"
+    }
+  },
+  "dashboard": {
+    "welcome": "مرحبًا، {{name}}",
+    "description": "نظرة عامة على الشركات والتراخيص التي تديرها.",
+    "refresh": "تحديث",
+    "retry": "إعادة المحاولة",
+    "summary": "ملخص الشركات",
+    "loading": "جارٍ تحميل لوحة التحكم",
+    "loadFailed": "تعذر تحميل ملخص الشركات.",
+    "totalCompanies": "إجمالي الشركات",
+    "activeCompanies": "الشركات النشطة",
+    "suspendedCompanies": "الشركات الموقوفة",
+    "expiredLicenses": "التراخيص المنتهية",
+    "recentCompanies": "الشركات المضافة مؤخرًا",
+    "noCompanies": "لم تُضف أي شركة حتى الآن.",
+    "licenseExpiry": "انتهاء الترخيص",
+    "active": "نشطة",
+    "suspended": "موقوفة"
+  }
+}

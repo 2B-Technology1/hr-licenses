@@ -1,0 +1,121 @@
+<new-theme-page-toolbar></new-theme-page-toolbar>
+
+<div class="newTheme-layout">
+  <div class="profile">
+    @if (auth.user(); as user) {
+      <section class="profile__card" aria-labelledby="profile-heading">
+        <h1 id="profile-heading">{{ 'auth.profile.title' | translate }}</h1>
+        <dl>
+          <dt>{{ 'auth.profile.name' | translate }}</dt>
+          <dd>{{ language.lang() === 'ar' ? user.name || user.engName : user.engName || user.name }}</dd>
+          <dt>{{ 'auth.profile.email' | translate }}</dt>
+          <dd dir="auto">{{ user.email }}</dd>
+          <dt>{{ 'auth.profile.role' | translate }}</dt>
+          <dd>{{ ('auth.roles.' + user.role) | translate }}</dd>
+          <dt>{{ 'auth.profile.lastLogin' | translate }}</dt>
+          <dd>
+            {{
+              user.lastLoginTime
+                ? (user.lastLoginTime | date: 'medium' : undefined : language.lang())
+                : ('auth.profile.unavailable' | translate)
+            }}
+          </dd>
+        </dl>
+      </section>
+    }
+    <section class="profile__card" aria-labelledby="password-heading">
+      <h2 id="password-heading">{{ 'auth.password.title' | translate }}</h2>
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @let currentPassword = form.get('currentPassword');
+        @let newPassword = form.get('newPassword');
+        @let confirmPassword = form.get('confirmPassword');
+        <div class="our-field bold-label">
+          <label for="current-password">
+            {{ 'auth.password.current' | translate }}
+            <app-required-field aria-hidden="true" />
+          </label>
+          <input
+            pInputText
+            id="current-password"
+            type="password"
+            autocomplete="current-password"
+            formControlName="currentPassword"
+            required
+            [attr.aria-invalid]="currentPassword?.touched && currentPassword?.invalid"
+            [attr.aria-describedby]="
+              currentPassword?.touched && currentPassword?.invalid ? 'current-password-error' : null
+            "
+          />
+          @if (currentPassword?.touched && currentPassword?.invalid) {
+            <app-form-error id="current-password-error" [control]="currentPassword" />
+          }
+        </div>
+        <div class="our-field bold-label">
+          <label for="new-password">
+            {{ 'auth.password.new' | translate }}
+            <app-required-field aria-hidden="true" />
+          </label>
+          <input
+            pInputText
+            id="new-password"
+            type="password"
+            autocomplete="new-password"
+            formControlName="newPassword"
+            (input)="passwordMismatch.set(false)"
+            required
+            [attr.aria-invalid]="newPassword?.touched && newPassword?.invalid"
+            [attr.aria-describedby]="
+              newPassword?.touched && newPassword?.invalid
+                ? 'password-rules new-password-error'
+                : 'password-rules'
+            "
+          />
+          <span id="password-rules" class="field-hint">
+            {{ 'auth.password.rules' | translate }}
+          </span>
+          @if (newPassword?.touched && newPassword?.invalid) {
+            <app-form-error id="new-password-error" [control]="newPassword" />
+          }
+        </div>
+        <div class="our-field bold-label" [class.has-error]="passwordMismatch()">
+          <label for="confirm-password">
+            {{ 'auth.password.confirm' | translate }}
+            <app-required-field aria-hidden="true" />
+          </label>
+          <input
+            pInputText
+            id="confirm-password"
+            type="password"
+            autocomplete="new-password"
+            formControlName="confirmPassword"
+            (input)="passwordMismatch.set(false)"
+            required
+            [attr.aria-invalid]="(confirmPassword?.touched && confirmPassword?.invalid) || passwordMismatch()"
+            [attr.aria-describedby]="
+              confirmPassword?.touched && confirmPassword?.invalid
+                ? 'confirm-password-error'
+                : passwordMismatch() ? 'confirm-password-mismatch' : null
+            "
+          />
+          @if (confirmPassword?.touched && confirmPassword?.invalid) {
+            <app-form-error id="confirm-password-error" [control]="confirmPassword" />
+          } @else if (passwordMismatch()) {
+            <small id="confirm-password-mismatch" class="field-error" role="alert">
+              {{ 'auth.password.mismatch' | translate }}
+            </small>
+          }
+        </div>
+        @if (validationErrors().length) {
+          <ul role="alert">
+            @for (reason of validationErrors(); track $index) {
+              <li>{{ reason }}</li>
+            }
+          </ul>
+        }
+        <button type="submit" class="custom-btn btn-primary" [disabled]="submitting()">
+          {{ (submitting() ? 'auth.password.saving' : 'auth.password.save') | translate }}
+        </button>
+      </form>
+    </section>
+  </div>
+</div>

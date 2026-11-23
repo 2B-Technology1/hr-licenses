@@ -1,6 +1,14 @@
-# SuperAdmin
+# NAS Super Admin
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.43.
+
+## Shared design system
+
+NAS serves multiple customer companies. Use the NAS name and customer-neutral copy in shared designs, and provide both Arabic and English for interface and accessibility text.
+
+Check `@mohammed_a4rf/core-ui` first for reusable controls, styles, validators, and other building blocks. If one is missing, add and export it in the shared library. Super Admin keeps its own routes, permissions, and business rules.
+
+Wrap labeled controls in `.our-field` and use the library’s `app-required-field` and `app-form-error` for required markers and validation. See [AGENTS.md](AGENTS.md) for the full project rules.
 
 ## Development server
 

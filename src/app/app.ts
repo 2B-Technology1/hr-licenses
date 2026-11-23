@@ -1,12 +1,22 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { BrowserTitleService, RouteLoadingService } from '@mohammed_a4rf/core-ui';
+import { CustomToastComponent, NavigationHistoryService } from '@mohammed_a4rf/core-ui/shared';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, CustomToastComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
-export class App {
-  protected readonly title = signal('super-admin');
+export class App implements OnInit {
+  private readonly browserTitle = inject(BrowserTitleService);
+  private readonly routeLoading = inject(RouteLoadingService);
+  private readonly navigationHistory = inject(NavigationHistoryService);
+
+  ngOnInit(): void {
+    this.browserTitle.start();
+    this.routeLoading.start();
+    this.navigationHistory.startTracking();
+  }
 }

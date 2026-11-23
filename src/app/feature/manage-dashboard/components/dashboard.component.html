@@ -1,0 +1,94 @@
+<new-theme-page-toolbar></new-theme-page-toolbar>
+
+<div class="newTheme-layout">
+  <div class="dashboard">
+    <header class="dashboard__hero">
+      <div class="dashboard__greeting">
+        <div class="dashboard__date">
+          <i class="pi pi-calendar" aria-hidden="true"></i>
+          {{ today | date: 'fullDate' : undefined : language.lang() }}
+        </div>
+        @if (userName()) {
+          <h1>{{ 'dashboard.welcome' | translate: { name: userName() } }}</h1>
+        }
+        <p>{{ 'dashboard.description' | translate }}</p>
+      </div>
+      <button type="button" class="custom-btn btn-white" (click)="loadOverview()" [disabled]="loading()">
+        <i class="pi pi-refresh" [class.pi-spin]="loading()" aria-hidden="true"></i>
+        {{ 'dashboard.refresh' | translate }}
+      </button>
+    </header>
+
+    @if (loading()) {
+      <section class="dashboard__stats" [attr.aria-label]="'dashboard.loading' | translate">
+        @for (metric of metrics; track metric.key) {
+          <p-skeleton height="6.875rem" />
+        }
+      </section>
+    } @else if (failed()) {
+      <section class="dashboard__panel dashboard__feedback" role="status">
+        <i class="pi pi-exclamation-circle" aria-hidden="true"></i>
+        <p>{{ 'dashboard.loadFailed' | translate }}</p>
+        <button type="button" class="custom-btn btn-outline-primary" (click)="loadOverview()">
+          {{ 'dashboard.retry' | translate }}
+        </button>
+      </section>
+    } @else if (counts(); as overview) {
+      <section class="dashboard__stats" [attr.aria-label]="'dashboard.summary' | translate">
+        @for (metric of metrics; track metric.key) {
+          <app-stat-card
+            [title]="metric.label | translate"
+            [icon]="metric.icon"
+            [value]="(overview[metric.key] | number: '1.0-0' : language.lang()) ?? ''"
+            [clickable]="false"
+            [alert]="metric.key === 'expired' && overview.expired > 0"
+          />
+        }
+      </section>
+
+      <section class="dashboard__panel" aria-labelledby="companies-heading">
+        <h2 id="companies-heading">{{ 'dashboard.recentCompanies' | translate }}</h2>
+        @if (recent().length) {
+          <ul class="dashboard__companies">
+            @for (company of recent(); track company.id) {
+              <li class="dashboard__company">
+                <div class="dashboard__identity">
+                  <i class="pi pi-building" aria-hidden="true"></i>
+                  <div>
+                    <strong>
+                      {{ (language.lang() === 'ar' ? company.nameAr : company.nameEn) || company.name }}
+                    </strong>
+                    <span dir="auto">{{ company.code }}</span>
+                  </div>
+                </div>
+                <span
+                  class="dashboard__status"
+                  [class.dashboard__status--active]="company.status === companyStatus.Active"
+                  [class.dashboard__status--suspended]="company.status === companyStatus.Suspended"
+                >
+                  @switch (company.status) {
+                    @case (companyStatus.Active) { {{ 'dashboard.active' | translate }} }
+                    @case (companyStatus.Suspended) { {{ 'dashboard.suspended' | translate }} }
+                    @default { {{ company.statusName }} }
+                  }
+                </span>
+                <div class="dashboard__expiry">
+                  <span>{{ 'dashboard.licenseExpiry' | translate }}</span>
+                  <strong>
+                    {{
+                      company.licenseExpiryDate
+                        ? (company.licenseExpiryDate.slice(0, 10) | date: 'mediumDate' : undefined : language.lang())
+                        : ('auth.profile.unavailable' | translate)
+                    }}
+                  </strong>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="dashboard__empty">{{ 'dashboard.noCompanies' | translate }}</p>
+        }
+      </section>
+    }
+  </div>
+</div>

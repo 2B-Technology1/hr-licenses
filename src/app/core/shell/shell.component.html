@@ -1,0 +1,9 @@
+<app-layout
+  logoMarkUrl="images/logo-core.svg"
+  logoWordUrl="images/word-mark.svg"
+  [menuGroups]="menuGroups"
+  [userName]="userName()"
+  [userEmail]="auth.user()?.email ?? ''"
+  (logout)="auth.logout()"
+  (profileClick)="openProfile()"
+></app-layout>
