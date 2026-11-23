@@ -1,0 +1,48 @@
+<form class="dialog-form" [formGroup]="form" (ngSubmit)="save()" novalidate>
+  @let months = form.get('months');
+  @let days = form.get('days');
+  @let note = form.get('note');
+
+  <div class="dialog-form__body flex flex-column gap-3">
+    <h3 class="m-0">{{ 'companies.license.extendTitle' | translate }}</h3>
+    <span class="field-hint">{{ 'companies.license.extendDescription' | translate }}</span>
+
+    <div class="form-section__grid">
+      <div class="our-field bold-label">
+        <label for="extend-months">{{ 'companies.license.months' | translate }}</label>
+        <input pInputText id="extend-months" type="number" formControlName="months" [preventInvalidNumberKeys]="true" />
+        @if (months?.touched && months?.invalid) {
+          <app-form-error [control]="months" />
+        }
+      </div>
+      <div class="our-field bold-label">
+        <label for="extend-days">{{ 'companies.license.days' | translate }}</label>
+        <input pInputText id="extend-days" type="number" formControlName="days" [preventInvalidNumberKeys]="true" />
+        @if (days?.touched && days?.invalid) {
+          <app-form-error [control]="days" />
+        }
+      </div>
+    </div>
+    @if (form.touched && form.hasError('periodRequired')) {
+      <div class="our-field">
+        <small class="field-error" role="alert">{{ 'companies.license.periodRequired' | translate }}</small>
+      </div>
+    }
+
+    <div class="our-field bold-label">
+      <label for="extend-note">{{ 'companies.license.note' | translate }}</label>
+      <textarea pTextarea id="extend-note" rows="3" formControlName="note" trimInput
+        [placeholder]="'companies.license.notePlaceholder' | translate"></textarea>
+      @if (note?.touched && note?.invalid) {
+        <app-form-error [control]="note" />
+      }
+    </div>
+  </div>
+
+  <div class="dialog-form__footer">
+    <button type="button" class="custom-btn btn-white" (click)="cancel()">{{ 'general.cancel' | translate }}</button>
+    <button type="submit" class="custom-btn btn-primary" [disabled]="saving()">
+      {{ 'companies.license.extend' | translate }}
+    </button>
+  </div>
+</form>

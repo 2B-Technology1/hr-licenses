@@ -1,6 +1,109 @@
 @use '@mohammed_a4rf/core-ui/styles';
 
+// The shared styles use "DM Sans" (white buttons, menus) and "Geist" (second line of table cells) but load
+// only Fira Sans. The HR app loads both itself, so they are loaded here too.
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Geist:wght@100..900&display=swap');
+
 button,
 input {
   font-family: inherit;
+}
+
+// Red button for harmful actions (suspend). The shared docs list `btn-danger` but its styles don't define it.
+.btn-danger {
+  border: none;
+  background-color: var(--Colors-Status-Red-500);
+  color: var(--Base-Color-White);
+  font-family: var(--Font-Family-English);
+  font-size: var(--Font-Size-XS);
+  font-weight: var(--Font-Weight-Medium);
+}
+
+// ---------------------------------------------------------------------------
+// HR look. The HR app keeps these rules in its own styles.scss (written for PrimeNG 17 class
+// names), so they are not in the shared styles; here they target the PrimeNG 20 markup.
+// ---------------------------------------------------------------------------
+
+// Page toolbar breadcrumb: every item and separator grey and regular.
+.page-toolbar .p-breadcrumb {
+  padding: 0 var(--Spacing-12);
+}
+
+.page-toolbar .p-breadcrumb .breadcrumb-label,
+.page-toolbar .p-breadcrumb .p-breadcrumb-separator {
+  color: var(--Colors-Neutral-700);
+  font-family: var(--Font-Family-English);
+  font-size: var(--Font-Size-XS);
+  font-weight: var(--Font-Weight-Regular);
+  line-height: var(--Font-Height-XS);
+}
+
+.page-toolbar .p-breadcrumb a.breadcrumb-label:hover {
+  text-decoration: underline;
+}
+
+// List page: the table sits 12px inside the page card, as on the HR list pages.
+.newTheme-layout > .table-container {
+  margin: var(--Spacing-12);
+}
+
+// Tables: rounded frame and 12px cells.
+.p-datatable {
+  border: 1px solid var(--Colors-Neutral-400);
+  border-radius: var(--Border-Radius-s);
+  overflow: hidden;
+}
+
+.p-datatable .p-datatable-thead > tr > th,
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: var(--Spacing-12);
+  border-color: var(--Colors-Neutral-400);
+}
+.our-field .p-input-icon-left > i, .our-field .p-input-icon-left > .pi {
+top:30%;
+}
+
+// Popups opened through ConfirmDialogService: no PrimeNG header bar and no close (X) button; each
+// popup shows its own title at the top and closes with its buttons.
+.host-dialog {
+  &.p-dialog .p-dialog-header {
+    display: none !important;
+  }
+
+  &.p-dialog .p-dialog-content {
+    padding: 0 !important;
+    border-radius: var(--Spacing-16);
+    overflow: hidden;
+    flex-grow: unset;
+  }
+
+  &.p-dialog {
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  // The shared reason dialog (suspend / resume) has only 8px of its own padding.
+  &.p-dialog .reason-dialog {
+    padding: var(--Spacing-24);
+  }
+}
+
+// Number inputs without the up/down arrows.
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+// Text areas keep their size (no drag handle in the corner). The shared `.our-field` rules allow
+// vertical resizing, so the same selectors are used here.
+textarea,
+.our-field textarea,
+.our-field .p-textarea {
+  resize: none;
 }

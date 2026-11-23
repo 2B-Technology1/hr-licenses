@@ -3,8 +3,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LanguageService } from '@mohammed_a4rf/core-ui';
 import { AppLayoutComponent, SidebarGroupLink } from '@mohammed_a4rf/core-ui/layout';
-import { chartPolarIcon, user } from '@mohammed_a4rf/core-ui/utils';
+import { chartPolarIcon, editUser, paperPlus, user } from '@mohammed_a4rf/core-ui/utils';
 import { AppRoutes } from '../app-routes';
+import { Roles } from '../auth/models/auth.interface';
 import { AuthService } from '../auth/services/auth.service';
 
 @Component({
@@ -28,6 +29,17 @@ export class ShellComponent {
           label: 'navigation.dashboard',
           routerLink: ['/', AppRoutes.Dashboard],
           svg: this.sanitizer.bypassSecurityTrustHtml(chartPolarIcon),
+        },
+        {
+          label: 'navigation.companies',
+          routerLink: ['/', AppRoutes.Companies],
+          svg: this.sanitizer.bypassSecurityTrustHtml(paperPlus),
+        },
+        {
+          label: 'navigation.users',
+          routerLink: ['/', AppRoutes.Users],
+          svg: this.sanitizer.bypassSecurityTrustHtml(editUser),
+          visible: this.auth.user()?.role === Roles.SuperAdmin,
         },
         {
           label: 'auth.profile.title',

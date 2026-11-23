@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from '@mohammed_a4rf/core-ui';
 import { AppRoutes } from './core/app-routes';
 import { sessionGuard } from './core/auth/session.guard';
+import { superAdminGuard } from './core/auth/super-admin.guard';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,16 @@ export const routes: Routes = [
       {
         path: AppRoutes.Dashboard,
         loadChildren: () => import('./feature/manage-dashboard/dashboard.routes').then((m) => m.dashboardRoutes),
+      },
+      {
+        path: AppRoutes.Companies,
+        loadChildren: () =>
+          import('./feature/manage-companies/manage-companies.routes').then((m) => m.manageCompaniesRoutes),
+      },
+      {
+        path: AppRoutes.Users,
+        canActivate: [superAdminGuard],
+        loadChildren: () => import('./feature/manage-users/manage-users.routes').then((m) => m.manageUsersRoutes),
       },
       {
         path: AppRoutes.Profile,

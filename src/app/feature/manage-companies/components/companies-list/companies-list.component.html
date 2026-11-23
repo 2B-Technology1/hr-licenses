@@ -1,0 +1,20 @@
+<new-theme-page-toolbar [actions]="actions"></new-theme-page-toolbar>
+
+<div class="newTheme-layout">
+  <div class="filter-container">
+    <app-filter-component [filterConfig]="filterConfig" (filterChange)="getSelectedFilters($event)"></app-filter-component>
+  </div>
+  <div class="table-container">
+    <app-reusable-table
+      [emptyState]="emptyState"
+      [skeletonConfig]="skeletonConfig"
+      [loading]="loading()"
+      [data]="rows()"
+      [tableConfig]="tableConfig"
+      [rowActions]="rowActions"
+      [menuActions]="menuActions"
+      [totalRecords]="totalRecords()"
+      (pageChange)="onPageChange($event)">
+    </app-reusable-table>
+  </div>
+</div>

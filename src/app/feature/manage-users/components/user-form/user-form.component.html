@@ -1,0 +1,94 @@
+<new-theme-page-toolbar [actions]="actions"></new-theme-page-toolbar>
+
+<div class="newTheme-layout">
+  <form class="grid" [formGroup]="form" novalidate>
+    @let name = form.get('name');
+    @let engName = form.get('engName');
+    @let email = form.get('email');
+    @let password = form.get('password');
+    @let role = form.get('role');
+
+    <div class="col-12 lg:col-7">
+      <section class="form-section">
+        <div class="form-section__head">
+          <span class="form-section__title">{{ 'users.form.detailsTitle' | translate }}</span>
+        </div>
+        <div class="form-section__body">
+          <div class="form-section__grid">
+            <div class="our-field">
+              <label for="user-name">{{ 'users.form.name' | translate }} <app-required-field /></label>
+              <input pInputText id="user-name" formControlName="name" trimInput dir="rtl" />
+              @if (name?.touched && name?.invalid) {
+                <app-form-error [control]="name" />
+              }
+            </div>
+            <div class="our-field">
+              <label for="user-eng-name">{{ 'users.form.engName' | translate }} <app-required-field /></label>
+              <input pInputText id="user-eng-name" formControlName="engName" trimInput dir="ltr" />
+              @if (engName?.touched && engName?.invalid) {
+                <app-form-error [control]="engName" />
+              }
+            </div>
+            <div class="our-field">
+              <label for="user-email">{{ 'users.form.email' | translate }} <app-required-field /></label>
+              <input pInputText id="user-email" type="email" formControlName="email" trimInput dir="ltr" autocomplete="off" />
+              <span class="field-hint">{{ 'users.form.emailHint' | translate }}</span>
+              @if (email?.touched && email?.invalid) {
+                <app-form-error [control]="email" />
+              }
+            </div>
+            <div class="our-field">
+              <label for="user-phone">{{ 'users.form.phone' | translate }}</label>
+              <input pInputText id="user-phone" type="tel" formControlName="phoneNumber" trimInput dir="ltr" />
+            </div>
+            <div class="our-field">
+              <label for="user-password">
+                {{ 'users.form.password' | translate }}
+                @if (!userId) {
+                  <app-required-field />
+                }
+              </label>
+              <input pInputText id="user-password" type="password" formControlName="password" autocomplete="new-password" />
+              <span class="field-hint">
+                {{ (userId ? 'users.form.passwordEditHint' : 'auth.password.rules') | translate }}
+              </span>
+              @if (password?.touched && password?.invalid) {
+                <app-form-error [control]="password" />
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="col-12 lg:col-5">
+      <section class="form-section">
+        <div class="form-section__head">
+          <span class="form-section__title">{{ 'users.form.accessTitle' | translate }}</span>
+        </div>
+        <div class="form-section__body">
+          <div class="our-field">
+            <label for="user-role">{{ 'users.form.role' | translate }} <app-required-field /></label>
+            <our-custom-dropdown
+              id="user-role"
+              formControlName="role"
+              [options]="roles()"
+              optionLabel="name"
+              optionValue="key"
+              [placeholder]="'users.form.rolePlaceholder' | translate" />
+            @if (role?.disabled) {
+              <span class="field-hint">{{ 'users.form.ownUserHint' | translate }}</span>
+            }
+            @if (role?.touched && role?.invalid) {
+              <app-form-error [control]="role" />
+            }
+          </div>
+          <div class="our-field">
+            <label for="user-active">{{ 'users.form.active' | translate }}</label>
+            <p-toggleswitch inputId="user-active" formControlName="isActive" />
+          </div>
+        </div>
+      </section>
+    </div>
+  </form>
+</div>

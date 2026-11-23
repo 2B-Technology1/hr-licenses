@@ -65,7 +65,12 @@
       "min_length": "Must be at least {{min}} characters",
       "pattern": "Invalid format",
       "required": "This field is required"
-    }
+    },
+    "edit": "Edit",
+    "view": "View",
+    "save": "Save",
+    "close": "Close",
+    "filter": "Filter"
   },
   "add_feature_column": {
     "title": "Configure Columns",
@@ -82,7 +87,9 @@
   "navigation": {
     "dashboard": "Dashboard",
     "main": "Main menu",
-    "notFound": "Page not found"
+    "notFound": "Page not found",
+    "companies": "Companies",
+    "users": "Users"
   },
   "auth": {
     "brand": "NAS",
@@ -140,5 +147,140 @@
     "licenseExpiry": "License expiry",
     "active": "Active",
     "suspended": "Suspended"
+  },
+  "companies": {
+    "add": "Add company",
+    "searchPlaceholder": "Search by name, code or contact",
+    "expired": "Expired",
+    "filters": {
+      "status": "Status",
+      "module": "Module",
+      "header": "Companies",
+      "description": "Manage companies, their modules and licenses here"
+    },
+    "columns": {
+      "company": "Company",
+      "modules": "Modules",
+      "licenseStatus": "License status",
+      "licenseStart": "License start",
+      "licenseDuration": "License duration"
+    },
+    "length": {
+      "month": "1 month",
+      "months": "{{count}} months",
+      "day": "1 day",
+      "days": "{{count}} days"
+    },
+    "empty": {
+      "title": "No companies found",
+      "description": "Add a company or change the filters."
+    },
+    "form": {
+      "addTitle": "Add company",
+      "editTitle": "Edit company",
+      "viewTitle": "Company details",
+      "detailsTitle": "Company details",
+      "name": "Arabic name",
+      "engName": "English name",
+      "code": "Code",
+      "codeHint": "Letters, digits, '-' and '_' only. It can't be changed later.",
+      "apiUrl": "HR API URL",
+      "apiUrlHint": "The company's HR system API, needed to sync the license.",
+      "contactName": "Contact name",
+      "contactEmail": "Contact email",
+      "contactPhone": "Contact phone",
+      "notes": "Notes",
+      "modulesTitle": "Modules",
+      "modulesHint": "Core is always on. Modules that need other modules select them too.",
+      "modules": "Active modules",
+      "modulesPlaceholder": "Select modules",
+      "licenseTitle": "License",
+      "licenseStart": "Start date",
+      "licenseExpiry": "Expiry date",
+      "expiryBeforeStart": "The expiry date must be on or after the start date.",
+      "maxUsers": "Maximum users",
+      "maxUsersHint": "0 means no limit.",
+      "graceDays": "Grace days",
+      "graceDaysHint": "Days the HR system keeps working when it cannot reach NAS (0–90)."
+    },
+    "license": {
+      "state": "Status",
+      "period": "Period",
+      "remaining": "Remaining",
+      "daysLeft": "{{count}} days left",
+      "daysOverdue": "{{count}} days overdue",
+      "suspendReason": "Suspension reason",
+      "extend": "Extend",
+      "extendTitle": "Extend license",
+      "extendDescription": "Add months and/or days to the current expiry date.",
+      "months": "Months",
+      "days": "Days",
+      "periodRequired": "Enter months or days.",
+      "note": "Note",
+      "notePlaceholder": "Optional note for the history",
+      "suspend": "Suspend license",
+      "suspendTitle": "Suspend license",
+      "suspendDescription": "The company's HR system blocks sign-in (except its admins) at its next license check.",
+      "reason": "Reason",
+      "reasonPlaceholder": "Why is the license suspended?",
+      "resume": "Resume license",
+      "resumeTitle": "Resume license",
+      "resumeDescription": "The company's HR system works again after its next license check."
+    },
+    "secret": {
+      "title": "Company secret",
+      "warning": "Copy this secret now. It won't be shown again; the company's HR server needs it with the code.",
+      "copy": "Copy secret",
+      "copied": "The secret was copied."
+    },
+    "actions": {
+      "syncNow": "Sync now",
+      "regenerateSecret": "Regenerate secret"
+    },
+    "regenerate": {
+      "title": "Regenerate secret",
+      "question": "The current secret stops working at once. The company's HR system settings must be updated with the new one.",
+      "confirm": "Regenerate"
+    }
+  },
+  "users": {
+    "add": "Add user",
+    "searchPlaceholder": "Search by name, email or phone",
+    "active": "Active",
+    "inactive": "Inactive",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "filters": {
+      "role": "Role",
+      "header": "Panel users",
+      "description": "Manage who can use NAS Super Admin and their roles here"
+    },
+    "columns": {
+      "user": "User",
+      "phone": "Phone",
+      "role": "Role",
+      "status": "Status"
+    },
+    "empty": {
+      "title": "No users found",
+      "description": "Add a user or change the filters."
+    },
+    "form": {
+      "addTitle": "Add user",
+      "editTitle": "Edit user",
+      "detailsTitle": "User details",
+      "accessTitle": "Access",
+      "name": "Arabic name",
+      "engName": "English name",
+      "email": "Email",
+      "emailHint": "The email is also the user name.",
+      "phone": "Phone",
+      "password": "Password",
+      "passwordEditHint": "Leave empty to keep the current password.",
+      "role": "Role",
+      "rolePlaceholder": "Select a role",
+      "ownUserHint": "You can't change your own role or deactivate yourself.",
+      "active": "Active"
+    }
   }
 }

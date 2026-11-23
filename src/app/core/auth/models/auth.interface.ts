@@ -1,4 +1,10 @@
-export type SuperAdminRole = 'sup-admin' | 'admin' | 'viewer';
+/** Keys of `Enums/getRoles`. */
+export const Roles = {
+  SuperAdmin: 'sup-admin',
+  Admin: 'admin',
+  Viewer: 'viewer',
+} as const;
+export type SuperAdminRole = (typeof Roles)[keyof typeof Roles];
 
 export interface AuthUser {
   id: number;

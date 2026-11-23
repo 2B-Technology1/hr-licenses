@@ -1,0 +1,200 @@
+<new-theme-page-toolbar [actions]="actions"></new-theme-page-toolbar>
+
+<div class="newTheme-layout">
+  <form class="grid" [formGroup]="form" novalidate>
+    @let name = form.get('name');
+    @let engName = form.get('engName');
+    @let code = form.get('code');
+    @let contactEmail = form.get('contactEmail');
+    @let licenseStartDate = form.get('licenseStartDate');
+    @let licenseExpiryDate = form.get('licenseExpiryDate');
+    @let maxUsers = form.get('maxUsers');
+    @let graceDays = form.get('graceDays');
+
+    <div class="col-12 lg:col-7 flex flex-column gap-3">
+      <section class="form-section">
+        <div class="form-section__head">
+          <span class="form-section__title">{{ 'companies.form.detailsTitle' | translate }}</span>
+        </div>
+        <div class="form-section__body">
+          <div class="form-section__grid">
+            <div class="our-field">
+              <label for="company-name">{{ 'companies.form.name' | translate }} <app-required-field /></label>
+              <input pInputText id="company-name" formControlName="name" trimInput dir="rtl" />
+              @if (name?.touched && name?.invalid) {
+                <app-form-error [control]="name" />
+              }
+            </div>
+            <div class="our-field">
+              <label for="company-eng-name">{{ 'companies.form.engName' | translate }} <app-required-field /></label>
+              <input pInputText id="company-eng-name" formControlName="engName" trimInput dir="ltr" />
+              @if (engName?.touched && engName?.invalid) {
+                <app-form-error [control]="engName" />
+              }
+            </div>
+            <div class="our-field">
+              <label for="company-code">{{ 'companies.form.code' | translate }} <app-required-field /></label>
+              <input pInputText id="company-code" formControlName="code" trimInput dir="ltr" />
+              <span class="field-hint">{{ 'companies.form.codeHint' | translate }}</span>
+              @if (code?.touched && code?.invalid) {
+                <app-form-error [control]="code" />
+              }
+            </div>
+            <div class="our-field">
+              <label for="company-api-url">{{ 'companies.form.apiUrl' | translate }}</label>
+              <input pInputText id="company-api-url" formControlName="apiUrl" trimInput dir="ltr" />
+              <span class="field-hint">{{ 'companies.form.apiUrlHint' | translate }}</span>
+            </div>
+            <div class="our-field">
+              <label for="company-contact-name">{{ 'companies.form.contactName' | translate }}</label>
+              <input pInputText id="company-contact-name" formControlName="contactName" trimInput />
+            </div>
+            <div class="our-field">
+              <label for="company-contact-email">{{ 'companies.form.contactEmail' | translate }}</label>
+              <input pInputText id="company-contact-email" type="email" formControlName="contactEmail" trimInput dir="ltr" />
+              @if (contactEmail?.touched && contactEmail?.invalid) {
+                <app-form-error [control]="contactEmail" />
+              }
+            </div>
+            <div class="our-field">
+              <label for="company-contact-phone">{{ 'companies.form.contactPhone' | translate }}</label>
+              <input pInputText id="company-contact-phone" type="tel" formControlName="contactPhone" trimInput dir="ltr" />
+            </div>
+          </div>
+          <div class="our-field">
+            <label for="company-notes">{{ 'companies.form.notes' | translate }}</label>
+            <textarea pTextarea id="company-notes" rows="3" formControlName="notes" trimInput></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="form-section__head">
+          <span class="form-section__title">{{ 'companies.form.modulesTitle' | translate }}</span>
+          <span class="form-section__desc">{{ 'companies.form.modulesHint' | translate }}</span>
+        </div>
+        <div class="form-section__body">
+          <div class="our-field">
+            <label>{{ 'companies.form.modules' | translate }}</label>
+            <our-custom-multi-select
+              formControlName="modules"
+              [options]="modules()"
+              optionLabel="name"
+              optionValue="code"
+              optionDisabled="isCore"
+              [disabledChecked]="true"
+              [displayAsChips]="true"
+              [showCheckbox]="true"
+              [placeholder]="'companies.form.modulesPlaceholder' | translate" />
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="col-12 lg:col-5 flex flex-column gap-3">
+      <section class="form-section">
+        <div class="form-section__head">
+          <span class="form-section__title">{{ 'companies.form.licenseTitle' | translate }}</span>
+        </div>
+        <div class="form-section__body">
+          @if (!companyId) {
+            <div class="flex flex-column gap-3">
+              <div class="our-field">
+                <label for="company-license-start">{{ 'companies.form.licenseStart' | translate }} <app-required-field /></label>
+                <app-calendar-input inputId="company-license-start" formControlName="licenseStartDate" appendTo="body" />
+                @if (licenseStartDate?.touched && licenseStartDate?.invalid) {
+                  <app-form-error [control]="licenseStartDate" />
+                }
+              </div>
+              <div class="our-field">
+                <label for="company-license-expiry">{{ 'companies.form.licenseExpiry' | translate }} <app-required-field /></label>
+                <app-calendar-input inputId="company-license-expiry" formControlName="licenseExpiryDate" appendTo="body" />
+                @if (licenseExpiryDate?.touched && licenseExpiryDate?.invalid) {
+                  <app-form-error [control]="licenseExpiryDate" />
+                } @else if (form.hasError('dateRange')) {
+                  <small class="field-error" role="alert">{{ 'companies.form.expiryBeforeStart' | translate }}</small>
+                }
+              </div>
+            </div>
+          } @else if (license(); as current) {
+            <div class="form-info-row">
+              <span class="form-info-row__title">{{ 'companies.license.state' | translate }}</span>
+              <span class="form-info-row__desc">
+                <!-- A stopped license shows the company status the API sends with it ("Suspended"). -->
+                <span class="square-normal-badge {{ licenseStateColors[current.state] }}-badge">
+                  {{ current.state === licenseState.Stopped ? current.statusName : current.stateName }}
+                </span>
+              </span>
+            </div>
+            <div class="form-info-row">
+              <span class="form-info-row__title flex align-items-center gap-2">
+                <i class="pi pi-clock" aria-hidden="true"></i>
+                {{ 'companies.license.period' | translate }}
+              </span>
+              <span class="form-info-row__desc">
+                {{ current.licenseStartDate | date: 'mediumDate' : undefined : language.lang() }} –
+                {{ current.licenseExpiryDate | date: 'mediumDate' : undefined : language.lang() }}
+              </span>
+            </div>
+            <div class="form-info-row">
+              <span class="form-info-row__title flex align-items-center gap-2">
+                <i class="pi pi-calendar" aria-hidden="true"></i>
+                {{ 'companies.license.remaining' | translate }}
+              </span>
+              <span class="form-info-row__desc">
+                {{
+                  current.daysOverdue
+                    ? ('companies.license.daysOverdue' | translate: { count: current.daysOverdue })
+                    : ('companies.license.daysLeft' | translate: { count: current.daysLeft })
+                }}
+              </span>
+            </div>
+            @if (current.suspendedReason) {
+              <div class="form-info-row">
+                <span class="form-info-row__title">{{ 'companies.license.suspendReason' | translate }}</span>
+                <span class="form-info-row__desc">{{ current.suspendedReason }}</span>
+              </div>
+            }
+            @if (!readonly) {
+              <div class="flex flex-wrap gap-2">
+                <button type="button" class="custom-btn btn-outline-primary" (click)="extendLicense()">
+                  <i class="pi pi-calendar-plus" aria-hidden="true"></i>
+                  {{ 'companies.license.extend' | translate }}
+                </button>
+                @if (current.state === licenseState.Stopped) {
+                  <button type="button" class="custom-btn btn-primary" (click)="resumeLicense()">
+                    <i class="pi pi-play" aria-hidden="true"></i>
+                    {{ 'companies.license.resume' | translate }}
+                  </button>
+                } @else {
+                  <button type="button" class="custom-btn btn-danger" (click)="stopLicense()">
+                    <i class="pi pi-ban" aria-hidden="true"></i>
+                    {{ 'companies.license.suspend' | translate }}
+                  </button>
+                }
+              </div>
+            }
+          }
+          <div class="flex flex-column gap-3">
+            <div class="our-field">
+              <label for="company-max-users">{{ 'companies.form.maxUsers' | translate }} <app-required-field /></label>
+              <input pInputText id="company-max-users" type="number" formControlName="maxUsers" [preventInvalidNumberKeys]="true" />
+              <span class="field-hint">{{ 'companies.form.maxUsersHint' | translate }}</span>
+              @if (maxUsers?.touched && maxUsers?.invalid) {
+                <app-form-error [control]="maxUsers" />
+              }
+            </div>
+            <div class="our-field">
+              <label for="company-grace-days">{{ 'companies.form.graceDays' | translate }} <app-required-field /></label>
+              <input pInputText id="company-grace-days" type="number" formControlName="graceDays" [preventInvalidNumberKeys]="true" />
+              <span class="field-hint">{{ 'companies.form.graceDaysHint' | translate }}</span>
+              @if (graceDays?.touched && graceDays?.invalid) {
+                <app-form-error [control]="graceDays" />
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </form>
+</div>
