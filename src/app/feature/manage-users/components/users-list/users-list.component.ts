@@ -54,7 +54,8 @@ export class UsersListComponent implements OnInit {
       this.roleFilter,
     ],
   };
-  protected readonly tableConfig: TableConfig = {
+  /** Not readonly: "Show all" raises `rowsPerPage`, because the table shows at most that many rows. */
+  protected tableConfig: TableConfig = {
     columns: [
       {
         field: 'engName',
@@ -111,7 +112,7 @@ export class UsersListComponent implements OnInit {
   protected readonly loading = signal(true);
   protected readonly totalRecords = signal(0);
 
-  private userFilter: UserFilter = { pageNumber: 1, pageSize: 10 };
+  private userFilter: UserFilter = { pageNumber: 1, pageSize: 10 , };
 
   ngOnInit(): void {
     this.loadRoles();
@@ -129,10 +130,13 @@ export class UsersListComponent implements OnInit {
   }
 
   protected onPageChange(event: { first: number; rows: number | 'all' }): void {
-    this.userFilter =
-      event.rows === 'all'
-        ? { ...this.userFilter, pageNumber: 1, pageSize: this.totalRecords() || 1000000 }
-        : { ...this.userFilter, pageNumber: Math.floor(event.first / event.rows) + 1, pageSize: event.rows };
+    if (event.rows === 'all') {
+      const allRows = this.totalRecords() || 1000000;
+      this.tableConfig = { ...this.tableConfig, rowsPerPage: allRows };
+      this.userFilter = { ...this.userFilter, pageNumber: 1, pageSize: allRows };
+    } else {
+      this.userFilter = { ...this.userFilter, pageNumber: Math.floor(event.first / event.rows) + 1, pageSize: event.rows };
+    }
     this.loadUsers();
   }
 
