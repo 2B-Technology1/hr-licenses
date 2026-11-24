@@ -4,7 +4,7 @@
   <div class="filter-container">
     <app-filter-component [filterConfig]="filterConfig" (filterChange)="getSelectedFilters($event)"></app-filter-component>
   </div>
-  <div class="table-container">
+  <div class="table-container" (mouseover)="showHiddenModules($event)" (mouseout)="hideHiddenModules($event)">
     <app-reusable-table
       [emptyState]="emptyState"
       [skeletonConfig]="skeletonConfig"
@@ -18,3 +18,11 @@
     </app-reusable-table>
   </div>
 </div>
+
+<p-popover>
+  <ul class="list-none m-0 p-0 flex flex-column gap-2">
+    @for (module of hiddenModules(); track module) {
+      <li>{{ module }}</li>
+    }
+  </ul>
+</p-popover>

@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, Injector, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, Injector, OnInit, signal, viewChild } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { LanguageService, NotificationService } from '@mohammed_a4rf/core-ui';
@@ -35,6 +35,7 @@ import {
 import { HrModule } from '../../models/hr-module.interface';
 import { CompanyService } from '../../services/company.service';
 import { HrModuleService } from '../../services/hr-module.service';
+import { Popover, PopoverModule } from 'primeng/popover';
 import { showCompanySecret } from '../show-company-secret';
 
 @Component({
@@ -42,6 +43,7 @@ import { showCompanySecret } from '../show-company-secret';
   imports: [
     FilterComponentComponent,
     PageToolbarComponent,
+    PopoverModule,
     ReusableTableComponent,
   ],
   templateUrl: './companies-list.component.html',
@@ -59,8 +61,12 @@ export class CompaniesListComponent implements OnInit {
   private readonly injector = inject(Injector);
   private readonly destroyRef = inject(DestroyRef);
 
+  private readonly hiddenModulesPopover = viewChild.required(Popover);
+
   /** Viewers only read companies (the API answers 403 to their changes). */
   protected readonly canManage = this.auth.user()?.role !== Roles.Viewer;
+  /** Module chips shown in a row; the rest are listed when "More (N)" is hovered. */
+  private readonly visibleModuleChips = 3;
 
   /** Options come from the API and are filled in place, so the filter form is not rebuilt. */
   private readonly statusFilter: FilterOption = {
@@ -107,8 +113,12 @@ export class CompaniesListComponent implements OnInit {
   protected tableConfig: TableConfig = {
     columns: [
       { field: 'name', secondaryField: 'code', header: 'companies.columns.company', type: 'text-and-desc' },
-      // Every module is shown (the chips wrap onto more lines); "More (N)" can't be hovered or opened.
-      { field: 'moduleNames', header: 'companies.columns.modules', type: 'chips', chipsLimit: Infinity },
+      {
+        field: 'moduleNames',
+        header: 'companies.columns.modules',
+        type: 'chips',
+        chipsLimit: this.visibleModuleChips,
+      },
       {
         field: 'statusName',
         header: 'companies.columns.licenseStatus',
@@ -189,6 +199,8 @@ export class CompaniesListComponent implements OnInit {
 
   protected readonly loading = signal(true);
   protected readonly totalRecords = signal(0);
+  /** The modules of the hovered row that don't fit in its chips. */
+  protected readonly hiddenModules = signal<string[]>([]);
   /** The companies and the module catalogue load separately; the chips need both. */
   protected readonly rows = computed<CompanyRow[]>(() => {
     const names: Record<number, string> = {};
@@ -232,6 +244,24 @@ export class CompaniesListComponent implements OnInit {
       };
     }
     this.loadCompanies();
+  }
+
+  /**
+   * The shared table's "More (N)" is plain text with no popup, so hovering it shows this page's popover
+   * with the rest of that row's modules. The row is found by its position in the rendered rows.
+   */
+  protected showHiddenModules(event: MouseEvent): void {
+    const more = (event.target as HTMLElement).closest('.chips-cell__more');
+    const row = more?.closest('tr');
+    if (!more || !row?.parentElement) return;
+
+    const index = Array.from(row.parentElement.children).indexOf(row);
+    this.hiddenModules.set(this.rows()[index]?.moduleNames.slice(this.visibleModuleChips) ?? []);
+    this.hiddenModulesPopover().show(event, more);
+  }
+
+  protected hideHiddenModules(event: MouseEvent): void {
+    if ((event.target as HTMLElement).closest('.chips-cell__more')) this.hiddenModulesPopover().hide();
   }
 
   private loadCompanies(): void {
