@@ -157,6 +157,7 @@
     "add": "Add company",
     "searchPlaceholder": "Search companies...",
     "expired": "Expired",
+    "expiringSoon": "Expiring soon",
     "filters": {
       "status": "Status",
       "module": "Module",

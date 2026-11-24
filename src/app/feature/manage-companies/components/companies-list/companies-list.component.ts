@@ -30,6 +30,7 @@ import {
   CompanyFilterValues,
   CompanyRow,
   CompanyStatus,
+  EXPIRING_SOON_DAYS,
 } from '../../models/company.interface';
 import { HrModule } from '../../models/hr-module.interface';
 import { CompanyService } from '../../services/company.service';
@@ -112,10 +113,22 @@ export class CompaniesListComponent implements OnInit {
         field: 'statusName',
         header: 'companies.columns.licenseStatus',
         type: 'badge',
+        // Suspended first, then Expired (the day after expiry), then Expiring soon (30 days or fewer, the expiry
+        // day included: `daysLeft` is 0 on both of those days, so `isExpired` tells them apart), then Active.
         valueFormatter: (value, row: Company) =>
-          row.status === CompanyStatus.Active && row.isExpired ? 'companies.expired' : value,
+          row.status === CompanyStatus.Suspended
+            ? value
+            : row.isExpired
+              ? 'companies.expired'
+              : row.daysLeft <= EXPIRING_SOON_DAYS
+                ? 'companies.expiringSoon'
+                : value,
         badgeColorField: (row: Company) =>
-          row.status === CompanyStatus.Suspended ? 'danger' : row.isExpired ? 'warning' : 'success',
+          row.status === CompanyStatus.Suspended || row.isExpired
+            ? 'danger'
+            : row.daysLeft <= EXPIRING_SOON_DAYS
+              ? 'warning'
+              : 'success',
       },
       { field: 'licenseStartDate', header: 'companies.columns.licenseStart', type: 'date' },
       {

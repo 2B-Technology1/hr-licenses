@@ -94,6 +94,11 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "prebundle": {
+              "exclude": ["@mohammed_a4rf/core-ui"]
+            }
+          },
           "configurations": {
             "production": {
               "buildTarget": "super-admin:build:production"

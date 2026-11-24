@@ -20,6 +20,12 @@ export const CompanyDisplayStatus = {
   Expired: -1,
 } as const;
 
+/**
+ * Backend rule: a license is Expiring soon when this many days or fewer are left, up to and including the
+ * expiry date itself; the day after, it is Expired (`isExpired`).
+ */
+export const EXPIRING_SOON_DAYS = 30;
+
 export interface CompanyFilter extends PaginationObj {
   filterValue?: string;
   status?: (typeof CompanyStatus)[keyof typeof CompanyStatus];

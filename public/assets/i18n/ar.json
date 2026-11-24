@@ -157,6 +157,7 @@
     "add": "إضافة شركة",
     "searchPlaceholder": "ابحث عن شركة...",
     "expired": "منتهي",
+    "expiringSoon": "تنتهي قريبًا",
     "filters": {
       "status": "الحالة",
       "module": "الوحدة",
