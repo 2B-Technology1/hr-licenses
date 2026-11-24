@@ -5,6 +5,7 @@
     @let name = form.get('name');
     @let engName = form.get('engName');
     @let email = form.get('email');
+    @let phone = form.get('phoneNumber');
     @let password = form.get('password');
     @let role = form.get('role');
 
@@ -40,6 +41,10 @@
             <div class="our-field">
               <label for="user-phone">{{ 'users.form.phone' | translate }}</label>
               <input pInputText id="user-phone" type="tel" formControlName="phoneNumber" trimInput dir="ltr" />
+              <span class="field-hint">{{ 'users.form.phoneHint' | translate }}</span>
+              @if (phone?.touched && phone?.invalid) {
+                <app-form-error [control]="phone" />
+              }
             </div>
             <div class="our-field">
               <label for="user-password">

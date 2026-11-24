@@ -95,10 +95,12 @@ export class CompaniesListComponent implements OnInit {
       { name: 'filterValue', type: 'search', placeholder: 'companies.searchPlaceholder' },
     ],
   };
-  protected readonly tableConfig: TableConfig = {
+  /** Not readonly: "Show all" raises `rowsPerPage`, because the table shows at most that many rows. */
+  protected tableConfig: TableConfig = {
     columns: [
       { field: 'name', secondaryField: 'code', header: 'companies.columns.company', type: 'text-and-desc' },
-      { field: 'moduleNames', header: 'companies.columns.modules', type: 'chips', chipsLimit: 3 },
+      // Every module is shown (the chips wrap onto more lines); "More (N)" can't be hovered or opened.
+      { field: 'moduleNames', header: 'companies.columns.modules', type: 'chips', chipsLimit: Infinity },
       {
         field: 'statusName',
         header: 'companies.columns.licenseStatus',
@@ -196,10 +198,17 @@ export class CompaniesListComponent implements OnInit {
   }
 
   protected onPageChange(event: { first: number; rows: number | 'all' }): void {
-    this.companyFilter =
-      event.rows === 'all'
-        ? { ...this.companyFilter, pageNumber: 1, pageSize: this.totalRecords() || 1000000 }
-        : { ...this.companyFilter, pageNumber: Math.floor(event.first / event.rows) + 1, pageSize: event.rows };
+    if (event.rows === 'all') {
+      const allRows = this.totalRecords() || 1000000;
+      this.tableConfig = { ...this.tableConfig, rowsPerPage: allRows };
+      this.companyFilter = { ...this.companyFilter, pageNumber: 1, pageSize: allRows };
+    } else {
+      this.companyFilter = {
+        ...this.companyFilter,
+        pageNumber: Math.floor(event.first / event.rows) + 1,
+        pageSize: event.rows,
+      };
+    }
     this.loadCompanies();
   }
 
