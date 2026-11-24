@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: [self-hosted, newbrasbelldev]
+    runs-on: [self-hosted, SuperAdminFERunner]
 
     steps:
       - name: Checkout Code
@@ -29,3 +29,20 @@ jobs:
 
       - name: Build Angular App
         run: npx ng build --configuration=development
+
+      - name: Publish build to C:\Development\superadminFE\publish
+        if: github.event_name == 'push'
+        shell: powershell
+        run: |
+          $target = "C:\Development\superadminFE\publish"
+          if (-not (Test-Path "dist")) { throw "dist folder not found. Check outputPath in angular.json." }
+
+          # Angular 17+ writes to dist/<project>/browser; older versions write to dist/<project>
+          $project = Get-ChildItem -Path "dist" -Directory | Select-Object -First 1
+          $source = $project.FullName
+          if (Test-Path (Join-Path $source "browser")) { $source = Join-Path $source "browser" }
+
+          if (Test-Path $target) { Remove-Item -Path "$target\*" -Recurse -Force }
+          New-Item -ItemType Directory -Force -Path $target | Out-Null
+          Copy-Item -Path "$source\*" -Destination $target -Recurse -Force
+          Write-Host "Published $source to $target"
