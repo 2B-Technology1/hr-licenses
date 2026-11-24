@@ -3,6 +3,7 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { LanguageService } from '@mohammed_a4rf/core-ui';
 import {
+  DeleteConfirmationService,
   FilterComponentComponent,
   FilterConfig,
   FilterInput,
@@ -15,7 +16,7 @@ import {
   TableSkeletonConfig,
 } from '@mohammed_a4rf/core-ui/shared';
 import { isApiError, removeNullFilterProperties } from '@mohammed_a4rf/core-ui/utils';
-import { skip } from 'rxjs';
+import { filter, skip, switchMap } from 'rxjs';
 import { AppRoutes } from '../../../../core/app-routes';
 import { AuthUser, Roles } from '../../../../core/auth/models/auth.interface';
 import { AuthService } from '../../../../core/auth/services/auth.service';
@@ -31,6 +32,7 @@ export class UsersListComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly userService = inject(UserService);
   private readonly auth = inject(AuthService);
+  private readonly deleteConfirmation = inject(DeleteConfirmationService);
   private readonly language = inject(LanguageService);
   private readonly injector = inject(Injector);
   private readonly destroyRef = inject(DestroyRef);
@@ -64,6 +66,7 @@ export class UsersListComponent implements OnInit {
         type: 'text-and-desc',
         valueFormatter: (_, row: AuthUser) => (this.language.lang() === 'ar' ? row.name : row.engName),
       },
+      { field: 'userName', header: 'users.columns.userName', type: 'text' },
       { field: 'phoneNumber', header: 'users.columns.phone', type: 'text' },
       {
         field: 'roleName',
@@ -101,12 +104,20 @@ export class UsersListComponent implements OnInit {
       visibleWhen: (row: AuthUser) => row.id !== this.auth.user()?.id,
       callback: (row: AuthUser) => this.toggleStatus(row),
     },
+    {
+      label: 'general.delete',
+      icon: 'pi pi-trash',
+      type: 'delete',
+      // Like deactivating, deleting your own user is refused.
+      visibleWhen: (row: AuthUser) => row.id !== this.auth.user()?.id,
+      callback: (row: AuthUser) => this.deleteUser(row),
+    },
   ];
   protected readonly emptyState: TableEmptyStateConfig = {
     title: 'users.empty.title',
     description: 'users.empty.description',
   };
-  protected readonly skeletonConfig: TableSkeletonConfig = { columns: 4, rows: 6 };
+  protected readonly skeletonConfig: TableSkeletonConfig = { columns: 5, rows: 6 };
 
   protected readonly users = signal<AuthUser[]>([]);
   protected readonly loading = signal(true);
@@ -182,6 +193,24 @@ export class UsersListComponent implements OnInit {
   /** `users/add` or `users/edit/:id`. */
   private openPage(page: 'add' | 'edit', userId?: number): void {
     void this.router.navigate(['/', AppRoutes.Users, page, ...(userId ? [userId] : [])]);
+  }
+
+  private deleteUser(row: AuthUser): void {
+    this.deleteConfirmation
+      .confirm()
+      .pipe(
+        filter(Boolean),
+        switchMap(() => this.userService.deleteUser(row.id)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: (res) => {
+          if (isApiError(res)) return;
+          this.users.update((users) => users.filter((user) => user.id !== row.id));
+          this.totalRecords.update((total) => total - 1);
+        },
+        error: () => {},
+      });
   }
 
   private toggleStatus(row: AuthUser): void {

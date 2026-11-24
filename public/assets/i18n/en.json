@@ -261,6 +261,7 @@
     },
     "columns": {
       "user": "User",
+      "userName": "User name",
       "phone": "Phone",
       "role": "Role",
       "status": "Status"
@@ -276,8 +277,9 @@
       "accessTitle": "Access",
       "name": "Arabic name",
       "engName": "English name",
+      "userName": "User name",
+      "userNameHint": "Used to sign in. Letters, digits, '.', '_' and '-' only.",
       "email": "Email",
-      "emailHint": "The email is also the user name.",
       "phone": "Phone",
       "phoneHint": "Egyptian or Saudi mobile number, e.g. 01012345678 or +966512345678.",
       "password": "Password",

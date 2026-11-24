@@ -15,6 +15,7 @@ export interface UserBody {
   id?: number;
   name: string;
   engName: string;
+  userName: string;
   email: string;
   phoneNumber?: string;
   password?: string;
