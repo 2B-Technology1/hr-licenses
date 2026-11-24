@@ -8,7 +8,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { SkeletonModule } from 'primeng/skeleton';
 import { finalize, forkJoin } from 'rxjs';
 import { AuthService } from '../../../core/auth/services/auth.service';
-import { CompanyStatus, CompanySummary } from '../../manage-companies/models/company.interface';
+import { Company, CompanyStatus } from '../../manage-companies/models/company.interface';
 import { CompanyService } from '../../manage-companies/services/company.service';
 
 interface DashboardCounts {
@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
   protected readonly loading = signal(false);
   protected readonly failed = signal(false);
   protected readonly counts = signal<DashboardCounts | null>(null);
-  protected readonly recent = signal<CompanySummary[]>([]);
+  protected readonly recent = signal<Company[]>([]);
   protected readonly userName = computed(() => {
     const user = this.auth.user();
     if (!user) return '';
@@ -62,9 +62,10 @@ export class DashboardComponent implements OnInit {
 
     forkJoin({
       recent: this.companies.getCompanies({ pageNumber: 1, pageSize: 5 }),
-      active: this.companies.getCompanies({ ...page, status: CompanyStatus.Active }),
+      // Same states as the companies list: Suspended first, then Expired, then Active.
+      active: this.companies.getCompanies({ ...page, status: CompanyStatus.Active, expired: false }),
       suspended: this.companies.getCompanies({ ...page, status: CompanyStatus.Suspended }),
-      expired: this.companies.getCompanies({ ...page, expired: true }),
+      expired: this.companies.getCompanies({ ...page, status: CompanyStatus.Active, expired: true }),
     })
       .pipe(finalize(() => this.loading.set(false)), takeUntilDestroyed(this.destroyRef))
       .subscribe({

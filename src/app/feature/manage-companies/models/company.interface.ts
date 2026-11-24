@@ -10,11 +10,28 @@ export const CompanyStatus = {
   Suspended: 2,
 } as const;
 
+/**
+ * The states the dashboard, the companies table and the status filter show: the backend statuses plus
+ * Expired, an active company whose license date has passed (`isExpired`). Expired is not a backend id; the
+ * API is asked for it with `status: Active, expired: true` (and for Active with `expired: false`).
+ */
+export const CompanyDisplayStatus = {
+  ...CompanyStatus,
+  Expired: -1,
+} as const;
+
 export interface CompanyFilter extends PaginationObj {
   filterValue?: string;
   status?: (typeof CompanyStatus)[keyof typeof CompanyStatus];
   expired?: boolean;
   module?: number;
+}
+
+/** Values of the companies filter form; `status` is a `CompanyDisplayStatus` id. */
+export interface CompanyFilterValues {
+  filterValue?: string | null;
+  status?: number | null;
+  module?: number | null;
 }
 
 export interface CompanySummary {

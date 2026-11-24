@@ -150,7 +150,8 @@
     "noCompanies": "No companies have been added yet.",
     "licenseExpiry": "License expiry",
     "active": "Active",
-    "suspended": "Suspended"
+    "suspended": "Suspended",
+    "expired": "Expired"
   },
   "companies": {
     "add": "Add company",

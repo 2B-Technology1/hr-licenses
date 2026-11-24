@@ -23,7 +23,14 @@ import { filter, forkJoin, skip, switchMap } from 'rxjs';
 import { AppRoutes } from '../../../../core/app-routes';
 import { Roles } from '../../../../core/auth/models/auth.interface';
 import { AuthService } from '../../../../core/auth/services/auth.service';
-import { Company, CompanyFilter, CompanyRow, CompanyStatus } from '../../models/company.interface';
+import {
+  Company,
+  CompanyDisplayStatus,
+  CompanyFilter,
+  CompanyFilterValues,
+  CompanyRow,
+  CompanyStatus,
+} from '../../models/company.interface';
 import { HrModule } from '../../models/hr-module.interface';
 import { CompanyService } from '../../services/company.service';
 import { HrModuleService } from '../../services/hr-module.service';
@@ -188,10 +195,11 @@ export class CompaniesListComponent implements OnInit {
     this.listenToLanguageChange();
   }
 
-  protected getSelectedFilters(value: Partial<CompanyFilter>): void {
+  protected getSelectedFilters({ status, ...value }: CompanyFilterValues): void {
     this.companyFilter = removeNullFilterProperties({
       ...this.companyFilter,
       ...value,
+      ...this.statusFilterToApi(status),
       pageNumber: 1,
     }) as CompanyFilter;
     this.loadCompanies();
@@ -234,7 +242,10 @@ export class CompaniesListComponent implements OnInit {
       .subscribe({
         next: ({ statuses, modules }) => {
           if (isApiError(statuses) || isApiError(modules)) return;
-          this.statusFilter.checkboxes = statuses.data;
+          this.statusFilter.checkboxes = [
+            ...statuses.data,
+            { id: CompanyDisplayStatus.Expired, name: this.translate.instant('companies.expired') },
+          ];
           this.moduleFilter.checkboxes = modules.data.map((module) => ({ id: module.code, name: module.name }));
           this.modules.set(modules.data);
         },
@@ -308,6 +319,16 @@ export class CompaniesListComponent implements OnInit {
   /** `companies/add`, `companies/edit/:id` or `companies/view/:id`. */
   private openPage(page: 'add' | 'edit' | 'view', companyId?: number): void {
     void this.router.navigate(['/', AppRoutes.Companies, page, ...(companyId ? [companyId] : [])]);
+  }
+
+  /**
+   * The API has no Expired status: Expired asks for active companies with an expired license, and Active for
+   * active ones without. Both keys are always set (null drops them) so an earlier choice doesn't stay.
+   */
+  private statusFilterToApi(status: number | null | undefined): { status: number | null; expired: boolean | null } {
+    if (status === CompanyDisplayStatus.Expired) return { status: CompanyStatus.Active, expired: true };
+    if (status === CompanyStatus.Active) return { status: CompanyStatus.Active, expired: false };
+    return { status: status ?? null, expired: null };
   }
 
   /** "12 months", or days when the license is shorter than a month. */

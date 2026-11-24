@@ -61,15 +61,21 @@
                     <span dir="auto">{{ company.code }}</span>
                   </div>
                 </div>
+                @let expired = company.status === companyStatus.Active && company.isExpired;
                 <span
                   class="dashboard__status"
-                  [class.dashboard__status--active]="company.status === companyStatus.Active"
+                  [class.dashboard__status--active]="company.status === companyStatus.Active && !expired"
+                  [class.dashboard__status--expired]="expired"
                   [class.dashboard__status--suspended]="company.status === companyStatus.Suspended"
                 >
-                  @switch (company.status) {
-                    @case (companyStatus.Active) { {{ 'dashboard.active' | translate }} }
-                    @case (companyStatus.Suspended) { {{ 'dashboard.suspended' | translate }} }
-                    @default { {{ company.statusName }} }
+                  @if (expired) {
+                    {{ 'dashboard.expired' | translate }}
+                  } @else {
+                    @switch (company.status) {
+                      @case (companyStatus.Active) { {{ 'dashboard.active' | translate }} }
+                      @case (companyStatus.Suspended) { {{ 'dashboard.suspended' | translate }} }
+                      @default { {{ company.statusName }} }
+                    }
                   }
                 </span>
                 <div class="dashboard__expiry">

@@ -10,7 +10,7 @@ export interface AuthUser {
   id: number;
   name: string;
   engName: string;
-  /** Signs in with it; no longer the email (expected new backend field). */
+  /** Signs in with it; no longer the email. */
   userName: string;
   email: string;
   phoneNumber: string | null;

@@ -89,8 +89,8 @@ export class UserFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.maxLength(200)]],
       engName: [null, [Validators.required, Validators.maxLength(200)]],
-      // Expected rule until the backend confirms it: no spaces, letters / digits / . _ - only.
-      userName: [null, [Validators.required, Validators.maxLength(50), Validators.pattern(/^[A-Za-z0-9._-]+$/)]],
+      // Backend rule: letters, digits, '.', '_' and '-' only; it also checks the name is unique (any case).
+      userName: [null, [Validators.required, Validators.pattern(/^[A-Za-z0-9._-]+$/)]],
       email: [null, [Validators.required, strictEmailValidator()]],
       phoneNumber: [null, optionalPhoneValidator()],
       password: [

@@ -150,7 +150,8 @@
     "noCompanies": "لم تُضف أي شركة حتى الآن.",
     "licenseExpiry": "انتهاء الترخيص",
     "active": "نشطة",
-    "suspended": "موقوفة"
+    "suspended": "موقوفة",
+    "expired": "منتهية"
   },
   "companies": {
     "add": "إضافة شركة",

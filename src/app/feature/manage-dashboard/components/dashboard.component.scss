@@ -144,6 +144,10 @@
     &--suspended {
       background: var(--Colors-Status-Orange-50);
     }
+
+    &--expired {
+      background: var(--Colors-Status-Red-50);
+    }
   }
 
   &__empty {

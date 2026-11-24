@@ -38,9 +38,8 @@ export class UserService {
     return this.api.post<GlobalResponse<unknown>>(`${this.endPoint}/SetStatus`, body);
   }
 
-  /** Expected endpoint (the CRUD shape of the API conventions); not in Swagger yet. */
   deleteUser(id: number): Observable<GlobalResponse<unknown>> {
-    return this.api.delete<GlobalResponse<unknown>>(`${this.endPoint}/DeleteSoftById/${id}`);
+    return this.api.delete<GlobalResponse<unknown>>(`${this.endPoint}/Delete/${id}`);
   }
 
   // ==========================================================================
