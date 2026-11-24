@@ -99,7 +99,8 @@ export class CompaniesListComponent implements OnInit {
   protected tableConfig: TableConfig = {
     columns: [
       { field: 'name', secondaryField: 'code', header: 'companies.columns.company', type: 'text-and-desc' },
-      { field: 'moduleNames', header: 'companies.columns.modules', type: 'chips', chipsLimit: 3 },
+      // Every module is shown (the chips wrap onto more lines); "More (N)" can't be hovered or opened.
+      { field: 'moduleNames', header: 'companies.columns.modules', type: 'chips', chipsLimit: Infinity },
       {
         field: 'statusName',
         header: 'companies.columns.licenseStatus',

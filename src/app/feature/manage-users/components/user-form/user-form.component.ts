@@ -20,6 +20,7 @@ import { SuperAdminRole } from '../../../../core/auth/models/auth.interface';
 import { AuthService } from '../../../../core/auth/services/auth.service';
 import { RoleOption, UserBody } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
+import { optionalPhoneValidator } from '../../validators/user.validators';
 
 /** Page of `users/add` and `users/edit/:id`. */
 @Component({
@@ -89,7 +90,7 @@ export class UserFormComponent implements OnInit {
       name: [null, [Validators.required, Validators.maxLength(200)]],
       engName: [null, [Validators.required, Validators.maxLength(200)]],
       email: [null, [Validators.required, strictEmailValidator()]],
-      phoneNumber: [null],
+      phoneNumber: [null, optionalPhoneValidator()],
       password: [
         null,
         editing ? Validators.pattern(this.passwordPattern) : [Validators.required, Validators.pattern(this.passwordPattern)],

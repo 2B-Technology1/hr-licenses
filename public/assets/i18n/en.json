@@ -128,6 +128,10 @@
       "mismatch": "The passwords do not match.",
       "save": "Save password",
       "saving": "Saving…"
+    },
+    "roleChanged": {
+      "title": "Sign in again",
+      "detail": "Your role was changed. Sign in again to use your new permissions."
     }
   },
   "dashboard": {
@@ -150,7 +154,7 @@
   },
   "companies": {
     "add": "Add company",
-    "searchPlaceholder": "Search by name, code or contact",
+    "searchPlaceholder": "Search companies...",
     "expired": "Expired",
     "filters": {
       "status": "Status",
@@ -245,7 +249,7 @@
   },
   "users": {
     "add": "Add user",
-    "searchPlaceholder": "Search by name, email or phone",
+    "searchPlaceholder": "Search users...",
     "active": "Active",
     "inactive": "Inactive",
     "activate": "Activate",
@@ -275,6 +279,7 @@
       "email": "Email",
       "emailHint": "The email is also the user name.",
       "phone": "Phone",
+      "phoneHint": "Egyptian or Saudi mobile number, e.g. 01012345678 or +966512345678.",
       "password": "Password",
       "passwordEditHint": "Leave empty to keep the current password.",
       "role": "Role",
