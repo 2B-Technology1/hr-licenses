@@ -65,6 +65,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/SuperAdminDashBoard/",
               "budgets": [
                 {
                   "type": "initial",
