@@ -131,6 +131,7 @@ export class CompaniesListComponent implements OnInit {
               : 'success',
       },
       { field: 'licenseStartDate', header: 'companies.columns.licenseStart', type: 'date' },
+      { field: 'licenseExpiryDate', header: 'companies.columns.licenseEnd', type: 'date' },
       {
         field: 'licenseExpiryDate',
         header: 'companies.columns.licenseDuration',
@@ -184,7 +185,7 @@ export class CompaniesListComponent implements OnInit {
     title: 'companies.empty.title',
     description: 'companies.empty.description',
   };
-  protected readonly skeletonConfig: TableSkeletonConfig = { columns: 5, rows: 6 };
+  protected readonly skeletonConfig: TableSkeletonConfig = { columns: 6, rows: 6 };
 
   protected readonly loading = signal(true);
   protected readonly totalRecords = signal(0);

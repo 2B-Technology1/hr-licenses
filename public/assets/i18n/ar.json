@@ -169,6 +169,7 @@
       "modules": "الوحدات",
       "licenseStatus": "حالة الترخيص",
       "licenseStart": "بداية الترخيص",
+      "licenseEnd": "نهاية الترخيص",
       "licenseDuration": "مدة الترخيص"
     },
     "length": {

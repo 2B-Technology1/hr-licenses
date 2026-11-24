@@ -169,6 +169,7 @@
       "modules": "Modules",
       "licenseStatus": "License status",
       "licenseStart": "License start",
+      "licenseEnd": "License end",
       "licenseDuration": "License duration"
     },
     "length": {
