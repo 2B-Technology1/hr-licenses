@@ -28,7 +28,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular App
-        run: npx ng build --configuration=development
+        run: npx ng build --configuration=development --base-href /SuperAdminDashBoard/
 
       - name: Publish build to C:\Development\superadminFE\publish
         if: github.event_name == 'push'
